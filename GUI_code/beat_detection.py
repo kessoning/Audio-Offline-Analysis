@@ -2,6 +2,8 @@ import argparse
 import librosa
 import os
 import subprocess
+import tkinter as tk
+from tkinter import filedialog
 
 def convert_to_wav(input_file):
     output_file = "temp.wav"
@@ -54,12 +56,59 @@ def save_beat_frames(input_file, fps, output_file, mul):
         os.remove(input_file)
         print("Temporary WAV file deleted.")
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Beat detection script')
-    parser.add_argument('--input', type=str, help='Path to the input audio file')
-    parser.add_argument('--fps', type=int, default=12, help='Frames per second (FPS) of the animation')
-    parser.add_argument('--output', type=str, default="data.txt", help='Path to save the frame-by-frame output')
-    parser.add_argument('--mul', type=float, default=1.0, help='Value of the kick in the output file')
-    args = parser.parse_args()
+def open_file():
+    file_path = filedialog.askopenfilename(filetypes=[("Audio Files", "*.wav *.mp3 *.ogg *.mp4")])
+    entry_input.delete(0, tk.END)
+    entry_input.insert(tk.END, file_path)
 
-    save_beat_frames(args.input, args.fps, args.output, args.mul)
+def save_file():
+    file_path = filedialog.asksaveasfilename(filetypes=[("Text Files", "*.txt")])
+    entry_output.delete(0, tk.END)
+    entry_output.insert(tk.END, file_path)
+
+def process():
+    input_file = entry_input.get()
+    fps = int(entry_fps.get())
+    output_file = entry_output.get()
+    mul = float(entry_mul.get())
+
+    save_beat_frames(input_file, fps, output_file, mul)
+
+# Create the main window
+window = tk.Tk()
+window.title("Beat Detection Script")
+
+# Input file selection
+label_input = tk.Label(window, text="Input Audio File:")
+label_input.pack()
+entry_input = tk.Entry(window)
+entry_input.pack()
+button_input = tk.Button(window, text="Browse", command=open_file)
+button_input.pack()
+
+# FPS input
+label_fps = tk.Label(window, text="Frames per Second (FPS):")
+label_fps.pack()
+entry_fps = tk.Entry(window)
+entry_fps.pack()
+
+# Output file selection
+label_output = tk.Label(window, text="Output File:")
+label_output.pack()
+entry_output = tk.Entry(window)
+entry_output.pack()
+button_output = tk.Button(window, text="Browse", command=save_file)
+button_output.pack()
+
+# Multiplier input
+label_mul = tk.Label(window, text="Multiplier:")
+label_mul.pack()
+entry_mul = tk.Entry(window)
+entry_mul.pack()
+
+# Process button
+button_process = tk.Button(window, text="Process", command=process)
+button_process.pack()
+
+# Run the GUI main loop
+window.mainloop()

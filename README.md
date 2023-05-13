@@ -21,6 +21,8 @@ That's why I've developed a script that saves volume data for each frame and all
 
 ## Usage
 
+Be sure to have the latest version of [FFMPEG](https://ffmpeg.org/) installed on your machine.
+
 ### Windows executable
 
 Grab this user-friendly Windows executable right over [here!](https://github.com/kessoning/Audio-Offline-Analysis/releases/tag/v0.1)
@@ -35,6 +37,29 @@ Or run the script on any OS (well, at least I hope so!) by yourself:
    python beat_detection.py --input input.wav --fps 30 --output beat_frames.txt --formula "1 + x * 2"
 3. Replace input.wav with the path to your audio file, 30 with the desired frames per second (FPS) of the animation, beat_frames.txt with the output file path to save the beat frames, and "1 + x * 2" with your desired formula.
 4. Utilize the generated beat frames or keyframes in your creative coding IDE (e.g., Processing, OpenFrameworks) or Stable Diffusion Deforum script.
+
+###
+
+To compile an executable for other OS, there is the code in the GUI_code folder. You can try to compile it on your machine, and if you want to contribute make a pull request to add it to the release page.
+
+The compilation requires pyinstaller
+
+```bash
+pip install pyinstaller
+```
+
+After doing so, you only need to run
+```bash
+pyinstaller --onefile script.py
+```
+
+An issue I encountered was that librosa was missing a file, due the use of Anaconda. To solve this, you need to add librosa example data to the compiler
+
+```bash
+pyinstaller --onefile --add-data "path/to/anaconda/envs/*env_name*/lib/site-packages/librosa/util/example_data;librosa/util/example_data" script.py
+```
+
+Change "path/to/anaconda/envs/*env_name*/lib/site-packages/librosa/util/example_data" to your librosa library path.
 
 ### Example
 

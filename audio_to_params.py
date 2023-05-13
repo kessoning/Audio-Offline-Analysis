@@ -4,7 +4,12 @@ import numpy as np
 from scipy.io import wavfile
 import moviepy.editor
 from tqdm import trange
+import subprocess
 
+def convert_to_wav(input_file):
+    output_file = "temp.wav"
+    subprocess.call(["ffmpeg", "-i", input_file, output_file])
+    return output_file
 
 def parse_args():
     # Create an argument parser
@@ -34,17 +39,26 @@ def evaluate_formula(x, formula):
 
 
 def main(args):
+    convert_temp_wav = False
+
+    input_file = args.input
+
+    # Convert input file to WAV if it is not already in WAV format
+    if not input_file.lower().endswith('.wav'):
+        input_file = convert_to_wav(input_file)
+        convert_temp_wav = True
+    
     # Check if the input audio file exists
-    if not os.path.exists(args.input):
+    if not os.path.exists(input_file):
         # If not, convert the audio using moviepy
-        audio_clip = moviepy.editor.AudioFileClip(args.input)
-        audio_clip.write_audiofile(args.input, fps=44100, nbytes=2, codec='pcm_s16le')
+        audio_clip = moviepy.editor.AudioFileClip(input_file)
+        audio_clip.write_audiofile(input_file, fps=44100, nbytes=2, codec='pcm_s16le')
 
     # Get the track name from the input file
-    track_name = os.path.basename(args.input)[:-4]
+    track_name = os.path.basename(input_file)[:-4]
 
     # Read the audio file and convert to mono
-    rate, signal = wavfile.read(args.input)
+    rate, signal = wavfile.read(input_file)
     signal = np.mean(signal, axis=1)
 
     # Calculate the absolute values of the audio signal
@@ -75,9 +89,19 @@ def main(args):
         result = evaluate_formula(audio[n], args.formula)
         output += f"{n}:({result}),"
 
+    output_file = args.output
+    # Add .txt extension to the output file if it is not present
+    if not output_file.lower().endswith('.txt'):
+        output_file = output_file + ".txt"
+
     # Write the output string to a text file
-    with open(args.output, "w") as text_file:
+    with open(output_file, "w") as text_file:
         text_file.write(output)
+
+    # Delete temporary WAV file if it was converted
+    if convert_temp_wav:
+        os.remove(input_file)
+        print("Temporary WAV file deleted.")
 
 
 if __name__ == "__main__":
