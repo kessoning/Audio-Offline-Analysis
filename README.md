@@ -75,7 +75,7 @@ int frame = Integer.parseInt(string_frame); // the current frame in the file
 int volume = Float.parseFloat(string_volume); // the current sound volume from the file
 ```
 
-You might consider using an index that increments each frame. Save process for the beat detection, with the values decided in the --mul argument when the frame is onset.
+You might consider using an index that increments each frame. Same steps for the beat detection, with the values decided in the --mul argument when the frame is onset.
 
 ## Contributing
 
