@@ -50,19 +50,7 @@ int frame = Integer.parseInt(string_frame); // the current frame in the file
 int volume = Float.parseFloat(string_volume); // the current sound volume from the file
 ```
 
-You might consider using an index that increments each frame.
-
-and for the beat detection
-
-```Java
-String[] beats = loadStrings("beatmap.txt"); // the txt file output from the beat_detection
-String this_beat = beats[index];
-int beat = Integer.parseInt(this_beat);
-if (frameCount == beat) {   // check if this frame the the next beat are the same
-    // do something
-    index++; // increment the index to check for the next beat
-}
-```
+You might consider using an index that increments each frame. Save process for the beat detection, with the values decided in the --mul argument when the frame is onset.
 
 ## Contributing
 
