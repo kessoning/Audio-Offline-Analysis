@@ -23,7 +23,7 @@ That's why I've developed a script that saves volume data for each frame and all
 
 ### Windows executable
 
-Grab this user-friendly Windows executable right over [here!](https://github.com/kessoning/audio_offline_analysis/releases/tag/0.1)
+Grab this user-friendly Windows executable right over [here!](https://github.com/kessoning/Audio-Offline-Analysis/releases/tag/v0.1)
 
 ### Python script
 
