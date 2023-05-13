@@ -1,0 +1,93 @@
+# Offline Audio Analyzer and Beat Detection
+
+[![License](https://img.shields.io/github/license/your-username/your-repo.svg)](LICENSE)
+
+An offline audio analyzer and beat detection tool for creating sound-reactive animations and keyframes. This project utilizes the power of the librosa library to analyze audio tracks and extract beat information, enabling the creation of synchronized animations offline.
+
+Please note that this tool is designed for offline use and does not provide real-time audio analysis. It is intended for situations where you need to generate sound-reactive animations in high resolutions or perform complex visual processing on top of them.
+
+## Reasons
+
+I typically develop visuals in creative coding environments like Processing, OpenFrameworks, and OpenGL. When it comes to delivering a final, high-resolution video, I often struggle to find an efficient way to render my visuals at the desired quality. Screen recording doesn't quite cut it, especially with complex visuals, and real-time rendering becomes challenging.
+
+That's why I've developed a script that saves volume data for each frame and allows for precise frame-by-frame recall. I believe this tool can benefit other creative coders facing similar challenges. Let's simplify our workflow and support each other in our creative endeavors!
+
+## Features
+
+- Analyze audio tracks offline for sound-reactive animations.
+- Detect beats and extract frame numbers for synchronization.
+- Create keyframes for use with Stable Diffusion Deforum to generate sound-reactive animations.
+- Customizable output formula for each frame based on audio values.
+
+## Usage
+
+### Windows executable
+
+Grab this user-friendly Windows executable right over [here!](https://github.com/kessoning/audio_offline_analysis/releases/tag/0.1)
+
+### Python script
+
+Or run the script on any OS (well, at least I hope so!) by yourself:
+
+1. Install the required dependencies by running `pip install -r requirements.txt`.
+2. Run the script using the provided command-line arguments.
+   ```bash
+   python beat_detection.py --input input.wav --fps 30 --output beat_frames.txt --formula "1 + x * 2"
+3. Replace input.wav with the path to your audio file, 30 with the desired frames per second (FPS) of the animation, beat_frames.txt with the output file path to save the beat frames, and "1 + x * 2" with your desired formula.
+4. Utilize the generated beat frames or keyframes in your creative coding IDE (e.g., Processing, OpenFrameworks) or Stable Diffusion Deforum script.
+
+### Example
+
+For example, to use it in Processing you might need something like this:
+
+```Java
+String[] values = loadString("data.txt"); // data.txt is the output file of the audio_to_params.py
+String this_value = split(values, ",")[index];
+String[] splitted_values = split(this_value, ":");
+String string_frame = splitted_values[0];
+String string_volume = splitted_values[1];
+int frame = Integer.parseInt(string_frame); // the current frame in the file
+int volume = Float.parseFloat(string_volume); // the current sound volume from the file
+```
+
+You might consider using an index that increments each frame.
+
+and for the beat detection
+
+```Java
+String[] beats = loadStrings("beatmap.txt"); // the txt file output from the beat_detection
+String this_beat = beats[index];
+int beat = Integer.parseInt(this_beat);
+if (frameCount == beat) {   // check if this frame the the next beat are the same
+    // do something
+    index++; // increment the index to check for the next beat
+}
+```
+
+## Contributing
+
+Contributions are welcome! If you have any suggestions, bug reports, or feature requests, please open an issue or submit a pull request.
+
+## License
+
+MIT License
+
+Copyright (c) 2023 kesson
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
