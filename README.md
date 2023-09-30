@@ -47,7 +47,7 @@ The formula is specified through a command-line argument (-f or --formula). The 
 
 The formula allows for a wide range of audio analysis possibilities. By adjusting the formula, users can manipulate the output to reflect different aspects of the audio data, making this script highly flexible and customizable for various audio analysis tasks. This is especially useful when utilizing this script in conjunction with Stable Diffusion by Deforum.
 
-###
+### Compile from source
 
 To compile an executable for other OS, there is the code in the GUI_code folder. You can try to compile it on your machine, and if you want to contribute make a pull request to add it to the release page.
 
