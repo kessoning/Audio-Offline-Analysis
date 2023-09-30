@@ -34,9 +34,18 @@ Or run the script on any OS (well, at least I hope so!) by yourself:
 1. Install the required dependencies by running `pip install -r requirements.txt`.
 2. Run the script using the provided command-line arguments.
    ```bash
-   python beat_detection.py --input input.wav --fps 30 --output beat_frames.txt --formula "1 + x * 2"
-3. Replace input.wav with the path to your audio file, 30 with the desired frames per second (FPS) of the animation, beat_frames.txt with the output file path to save the beat frames, and "1 + x * 2" with your desired formula.
+   python audio_to_params.py --input input.wav --fps 30 --output data.txt --formula "1 + x * 2"
+   python beat_detection.py --input input.wav --fps 30 --output beatmap.txt 
+3. Replace input.wav with the path to your audio file, 30 with the desired frames per second (FPS) of the animation, data.txt/beatmap.txt with the output file path to save the beat frames, and "1 + x * 2" with your desired formula (in the audio_to_params).
 4. Utilize the generated beat frames or keyframes in your creative coding IDE (e.g., Processing, OpenFrameworks) or Stable Diffusion Deforum script.
+
+### Understanding the Formula Usage in the Script
+
+The audio_to_params.py script processes an audio file to generate an output that is based on a user-defined formula. The formula is applied to each sample of audio data, allowing for customizable audio analysis. The key functionality of formula evaluation is encapsulated within the evaluate_formula and main functions, with the latter being where the formula is applied to the audio data.
+
+The formula is specified through a command-line argument (-f or --formula). The default formula is x, where x represents the normalized value of the audio sample. Users can provide a custom formula, using x as the variable representing the normalized audio sample value.
+
+The formula allows for a wide range of audio analysis possibilities. By adjusting the formula, users can manipulate the output to reflect different aspects of the audio data, making this script highly flexible and customizable for various audio analysis tasks. This is especially useful when utilizing this script in conjunction with Stable Diffusion by Deforum.
 
 ###
 
@@ -63,19 +72,11 @@ Change "path/to/anaconda/envs/*env_name*/lib/site-packages/librosa/util/example_
 
 ### Example
 
-For example, to use it in Processing you might need something like this:
+Included in this repository is a working example implemented in Processing.
 
-```Java
-String[] values = loadString("data.txt"); // data.txt is the output file of the audio_to_params.py
-String this_value = split(values, ",")[index];
-String[] splitted_values = split(this_value, ":");
-String string_frame = splitted_values[0];
-String string_volume = splitted_values[1];
-int frame = Integer.parseInt(string_frame); // the current frame in the file
-int volume = Float.parseFloat(string_volume); // the current sound volume from the file
-```
+The scope of this repository currently encompasses only the Processing framework. Implementation guidance for other frameworks is not provided at this moment. However, I am open to expanding the repository to include examples in additional frameworks should I have the opportunity to work on them in the future.
 
-You might consider using an index that increments each frame. Same steps for the beat detection, with the values decided in the --mul argument when the frame is onset.
+
 
 ## Contributing
 
